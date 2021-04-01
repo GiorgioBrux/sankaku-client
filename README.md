@@ -4,7 +4,7 @@
     <img alt="npm" src="https://img.shields.io/npm/v/sankaku-client" />
   </a> 
   <img src="https://img.shields.io/badge/node-%3E%3D14-blue.svg" />
-  <a href="https://semver.org/lang/it/" target="_blank">
+  <a href="https://github.com/semantic-release/semantic-release" target="_blank">
     <img alt="Semantic-release" src="https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg" />
   </a>  
   <a href="https://github.com/GiorgioBrux/sankaku-client/wiki" target="_blank">
