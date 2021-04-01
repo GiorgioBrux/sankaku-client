@@ -21,7 +21,7 @@ assignees: ''
 A clear and concise explanation of the expected behavior.
 
 **What is the current behavior?**
-A clear and concise explanation of the expected behavior.
+A clear and concise explanation of the current behavior.
 
 **Other information** (e.g. detailed explanation, stacktraces, related issues, suggestions how to fix)
 Other info if you wish.
