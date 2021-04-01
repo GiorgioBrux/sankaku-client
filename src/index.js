@@ -37,7 +37,6 @@ class Client {
                 ...options.headers
             }
         };
-        console.log(config);
 
         return axios(config).catch((e) => {
             throw new Error(e);
