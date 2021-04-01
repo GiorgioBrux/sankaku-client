@@ -35,7 +35,7 @@ npm install sankaku-client
 ```js
 const {Client} = require('sankaku-client')
 
-let client = Client();
+let client = new Client();
 client.searchSubmissions({limit: 1, order_by: 'random'})
     .then((r) => {console.log(r[0])})
 ```    
