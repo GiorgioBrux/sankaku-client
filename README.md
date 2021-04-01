@@ -1,5 +1,5 @@
 <h1 align="center">sankaku-client</h1>
-<p>
+<p align="center">
   <a href="https://www.npmjs.com/package/sankaku-client" target="_blank">
     <img alt="npm" src="https://img.shields.io/npm/v/sankaku-client" />
   </a> 
