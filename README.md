@@ -39,7 +39,7 @@ let client = Client();
 client.searchSubmissions({limit: 1, order_by: 'random'})
     .then((r) => {console.log(r[0])})
 ```    
-For full documentation, check [the wiki](https://google.com).
+For full documentation, check [the wiki](https://github.com/GiorgioBrux/sankaku-client/wiki).
 
 ## Todo
 - Upload method
