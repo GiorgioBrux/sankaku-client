@@ -130,7 +130,7 @@ class Client {
      *
      * @throws {Error} Will throw error if not logged in or for generic network issues.
      * @example
-     * // Enable 'Send email when messaged'
+     * // Disable 'Send email when messaged'
      * client.setUserInfo({receive_dmails: false})
      * @param {object} change The object with the change you want to want.
      * @returns {Promise<object>} Object with success property set to true or false.
