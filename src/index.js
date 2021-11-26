@@ -265,9 +265,9 @@ class Client {
     } = {}) {
         let all_tags = [];
         if (order_by !== 'date') all_tags.push(`order:${order_by}`);
-        if (recommended_for) all_tags.push(`fav:${recommended_for}`);
+        if (recommended_for) all_tags.push(`recommended_for:${recommended_for}`);
         if (voted_by) all_tags.push(`voted:${voted_by}`);
-        if (favorited_by) all_tags.push(`recommended_for:${favorited_by}`);
+        if (favorited_by) all_tags.push(`fav:${favorited_by}`);
         if (uploaded_by) all_tags.push(`user:${uploaded_by}`);
         if (!(g && r15 && r18)) {
             if (g) all_tags.push(`rating:q`);
