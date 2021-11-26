@@ -242,6 +242,7 @@ class Client {
      * @param {string} [config.recommended_for] Show media recommended for username.
      * @param {string} [config.favorited_by] Show media favorited by username.
      * @param {string} [config.voted_by] Show media voted by username.
+     * @param {string} [config.uploaded_by] SHow media uploaded by username.
      * @param {Array<string>} [config.tags] Tags following the format <code>'yuri','-yaoi'</code>
      * @todo Add personalized recommended parameter
      */
@@ -259,13 +260,15 @@ class Client {
         recommended_for = '',
         favorited_by = '',
         voted_by = '',
+        uploaded_by = '',
         tags = []
     } = {}) {
         let all_tags = [];
         if (order_by !== 'date') all_tags.push(`order:${order_by}`);
         if (recommended_for) all_tags.push(`fav:${recommended_for}`);
         if (voted_by) all_tags.push(`voted:${voted_by}`);
-        if (favorited_by) all_tags.push(`user:${favorited_by}`);
+        if (favorited_by) all_tags.push(`recommended_for:${favorited_by}`);
+        if (uploaded_by) all_tags.push(`user:${uploaded_by}`);
         if (!(g && r15 && r18)) {
             if (g) all_tags.push(`rating:q`);
             if (r15) all_tags.push(`rating:s`);
