@@ -1,3 +1,10 @@
+## [1.0.3](https://github.com/GiorgioBrux/sankaku-client/compare/v1.0.2...v1.0.3) (2021-11-26)
+
+
+### Bug Fixes
+
+* inverted paramaters ([6fa57c6](https://github.com/GiorgioBrux/sankaku-client/commit/6fa57c692b0e8f7c2b6f87249f7ce31b6e011e4a))
+
 ## [1.0.2](https://github.com/GiorgioBrux/sankaku-client/compare/v1.0.1...v1.0.2) (2021-11-26)
 
 

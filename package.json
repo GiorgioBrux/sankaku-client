@@ -1,6 +1,6 @@
 {
   "name": "sankaku-client",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Unofficial Sankaku beta api client, with account support.",
   "main": "src/index.js",
   "scripts": {
