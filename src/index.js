@@ -1,5 +1,5 @@
-const axios = require('axios');
-const jwt_decode = require('jwt-decode');
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
 
 /**
  * Sankaku-api client
@@ -597,4 +597,4 @@ class Client {
     }
 }
 
-module.exports = { Client };
+export default Client;

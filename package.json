@@ -15,6 +15,7 @@
     "sankaku complex",
     "sankaku"
   ],
+  "type": "module",
   "author": "GiorgioBrux",
   "license": "MIT",
   "dependencies": {

@@ -33,11 +33,11 @@ npm install sankaku-client
 ## Example
 
 ```js
-const {Client} = require('sankaku-client')
+import Client from 'sankaku-client';
 
 let client = new Client();
 client.searchSubmissions({limit: 1, order_by: 'random'})
-    .then((r) => {console.log(r[0])})
+    .then((r) => {console.log(r[0])});
 ```    
 For full documentation, check [the wiki](https://github.com/GiorgioBrux/sankaku-client/wiki).
 
