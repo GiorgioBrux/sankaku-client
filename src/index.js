@@ -1,9 +1,8 @@
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 
 /**
  * Sankaku-api client
- *
  * @class
  * @param {object} [extra_headers] Headers added to every request.
  * @example
@@ -26,7 +25,7 @@ class Client {
     #user_info = {};
 
     async #request(options) {
-        if (this.#access_token && Date.now() >= jwt_decode(this.#access_token).exp * 1000)
+        if (this.#access_token && Date.now() >= jwtDecode(this.#access_token).exp * 1000)
             await this.login({ login: this.#login, password: this.#password });
 
         const config = {
@@ -47,7 +46,6 @@ class Client {
      * Login with an user account.<br>
      * It will refresh the token automatically when needed, by reusing the same login and password. <br>
      * ⚠ If the credentials are changed, some functions may stop working and you will have to logout().
-     *
      * @throws {Error} Will throw an error if the login/password combination is invalid or for generic network issues.
      * @returns {Promise<void>}
      * @example
@@ -62,8 +60,8 @@ class Client {
             url: 'https://capi-v2.sankakucomplex.com/auth/token',
             method: 'POST',
             data: {
-                login: login,
-                password: password
+                login,
+                password
             }
         });
         this.#access_token = req.data.access_token;
@@ -75,7 +73,6 @@ class Client {
     /**
      * Logout from current account.<br>
      * It calls the api logout endpoint and deletes the saved account data.
-     *
      * @throws {Error} WIll throw an error for generic network issues or if the logout api call fails (the latter can be usually ignored safely).
      * @returns {Promise<void>}
      * @async
@@ -93,8 +90,15 @@ class Client {
     }
 
     /**
+     * Returns whether the Client is logged in or not.
+     * @returns {boolean} Log-in status
+     */
+    isLoggedIn() {
+        return !!this.#access_token && !!this.#user_info;
+    }
+
+    /**
      * Get user info fetching latest data from api, either by id or name.
-     *
      * @throws {Error} Will throw error if not logged in AND no id/name is specified, or for generic network issues.
      * @example
      * // Get info about logged in account
@@ -127,7 +131,6 @@ class Client {
 
     /**
      * Edit user info/general settings.
-     *
      * @throws {Error} Will throw error if not logged in or for generic network issues.
      * @example
      * // Disable 'Send email when messaged'
@@ -152,7 +155,6 @@ class Client {
 
     /**
      * Get user settings fetching latest data from api
-     *
      * @throws {Error} Will throw error if not logged in or for generic network issues.
      * @example
      * client.updateUserSettings()
@@ -172,7 +174,6 @@ class Client {
 
     /**
      * Edit notifications settings.
-     *
      * @throws {Error} Will throw error if not logged in or for generic network issues.
      * @example
      * // Notify me when I am contacted in these ways => Messages => Enable email and push
@@ -196,10 +197,9 @@ class Client {
      * Search submissions through the website, anonymously or with your account if you are logged in.<br>
      * Can handle up to 2 tags anonymously.<br>
      * Some submissions may not have any url if:
-     *  * They are premium and the client isn't logged in with a premium account.<br>
-     *  * They have some special tags (e.g. loli) and the client isn't logged in.
+     * They are premium and the client isn't logged in with a premium account.<br>
+     * They have some special tags (e.g. loli) and the client isn't logged in.
      * It can fail with an error 408 if the search time is exceeded.
-     *
      * @async
      * @returns {Promise<Array.<{meta: object, data: object[]}>>} Array containing the meta and data part, the latter with submissions as objects.
      * @throws {Error} Will throw an error not logged in, the search time is exceeded or for generic network issues.
@@ -226,19 +226,19 @@ class Client {
      * test.searchSubmissions({ date: [new Date(2020, 1, 1), new Date(2020, 1, 30)] });
      * // Would probably return code 408 without premium
      * @param {object} config The request config
-     * @param {('popularity'|'date'|'quality'|'random'|'recently_favorited'|'recently_voted')} [config.order_by=date] Sort order.
-     * @param {number} [config.limit=40] Number of submissions wanted at once. Maximum is 100.
+     * @param {('popularity'|'date'|'quality'|'random'|'recently_favorited'|'recently_voted')} [config.order_by] Sort order.
+     * @param {number} [config.limit] Number of submissions wanted at once. Maximum is 100.
      * @param {string} [config.next] The metadata used to scroll through the submission. If set, it will return the next 'page' of a request.
      * @param {string} [config.prev] The metadata used to scroll through the submission. If set, it will return the previous 'page' of a request.
      * @param {object} [config.rating] Nudity rating filters.
-     * @param {boolean} [config.rating.g=true] Everyone.
-     * @param {boolean} [config.rating.r15=true] Younger teenagers.
-     * @param {boolean} [config.rating.r18=true] Adults.
+     * @param {boolean} [config.rating.g] Everyone.
+     * @param {boolean} [config.rating.r15] Younger teenagers.
+     * @param {boolean} [config.rating.r18] Adults.
      * @param {Date|Array<Date>} [config.date] Specify the search day or the search interval in an array.
-     * @param {('never'|'always'|'in-larger-tags')} [config.hide_posts_in_books=in-larger-tags] Hide book pages grouped into books
-     * @param {number} [config.threshold=1] Filters away everything under the threshold. Ranges from one to five.
-     * @param {('any'|'large'|'huge'|'long'|'wallpaper'|'16:9'|'4:3'|'3:2'|'1:1')} [config.size=any] Size of the media.
-     * @param {('any'|'video'|'gif')} [config.file_type=any] Type of the media.
+     * @param {('never'|'always'|'in-larger-tags')} [config.hide_posts_in_books] Hide book pages grouped into books
+     * @param {number} [config.threshold] Filters away everything under the threshold. Ranges from one to five.
+     * @param {('any'|'large'|'huge'|'long'|'wallpaper'|'16:9'|'4:3'|'3:2'|'1:1')} [config.size] Size of the media.
+     * @param {('any'|'video'|'gif')} [config.file_type] Type of the media.
      * @param {string} [config.recommended_for] Show media recommended for username.
      * @param {string} [config.favorited_by] Show media favorited by username.
      * @param {string} [config.voted_by] Show media voted by username.
@@ -297,10 +297,10 @@ class Client {
             },
             params: {
                 lang: 'en',
-                limit: limit,
-                next: next,
-                prev: prev,
-                hide_posts_in_books: hide_posts_in_books,
+                limit,
+                next,
+                prev,
+                hide_posts_in_books,
                 default_threshold: threshold,
                 tags: all_tags
             }
@@ -312,7 +312,6 @@ class Client {
     /**
      * Searches books through the website.
      * ⚠ The "Search by article title" filter is not implemented because as of 31/03/2021 it is broken (tested with a free account only).<br>
-     *
      * @async
      * @returns {Promise<Array.<{meta: object, data: object[]}>>} Array containing the meta and data part, the latter with books as objects.
      * @throws {Error} Will throw an error not logged in or for generic network issues.
@@ -321,17 +320,17 @@ class Client {
      * client.searchBooks({order_by: 'random'})
      *  .then(r => console.log(r.data))
      * @param {object} config The request config
-     * @param {('popularity'|'date'|'quality'|'random'|'recently_favorited'|'recently_voted')} [config.order_by=popularity] Sort order
-     * @param {number} [config.limit=20] Number of submissions wanted.
+     * @param {('popularity'|'date'|'quality'|'random'|'recently_favorited'|'recently_voted')} [config.order_by] Sort order
+     * @param {number} [config.limit] Number of submissions wanted.
      * @param {string} [config.next] The metadata used to scroll through the submission. If set, it will return the next 'page' of a request.
      * @param {string} [config.prev] The metadata used to scroll through the submission. If set, it will return the previous 'page' of a request.
      * @param {object} [config.rating] Nudity rating filters.
-     * @param {boolean} [config.rating.g=true] Everyone.
-     * @param {boolean} [config.rating.r15=true] Younger teenagers.
-     * @param {boolean} [config.rating.r18=true] Adults.
+     * @param {boolean} [config.rating.g] Everyone.
+     * @param {boolean} [config.rating.r15] Younger teenagers.
+     * @param {boolean} [config.rating.r18] Adults.
      * @param {string} [config.favorited_by] Show media favorited by username.
      * @param {string} [config.voted_by] Show media voted by username.
-     * @param {boolean} [config.show_empty=false] Show books with no posts.
+     * @param {boolean} [config.show_empty] Show books with no posts.
      * @param {Array<string>} [config.tags] Tags following the format <code>'yuri','-yaoi'</code>
      */
     async searchBooks({
@@ -369,9 +368,9 @@ class Client {
             },
             params: {
                 lang: 'en',
-                limit: limit,
-                next: next,
-                prev: prev,
+                limit,
+                next,
+                prev,
                 pool_type: 0,
                 tags: all_tags
             }
@@ -383,7 +382,6 @@ class Client {
     /**
      * Get submission by id<br>
      * If logged it, it will also return the user_vote, and is_favorited.
-     *
      * @async
      * @example
      * // Get submission 24846188
@@ -408,7 +406,6 @@ class Client {
     /**
      * Get book by id<br>
      * If logged it, it will also return the user_vote, and is_favorited.
-     *
      * @async
      * @example
      * // Get book 385168
@@ -432,12 +429,11 @@ class Client {
 
     /**
      * Get comments of a post/submission
-     *
      * @param {object} config The request config
      * @throws {Error} Throws error for generic network issues, or if the submission is premium and client isn't logged in with a premium account
-     * @param {('books'|'posts')} [config.type='posts'] Whether you want to get comments for a book or a submission
-     * @param {number} [config.limit=20] Number of comments wanted.
-     * @param {number} [config.page=1] Page number
+     * @param {('books'|'posts')} [config.type] Whether you want to get comments for a book or a submission
+     * @param {number} [config.limit] Number of comments wanted.
+     * @param {number} [config.page] Page number
      * @param {number} config.id id of the book/submission
      * @returns {Promise<object>} Object with all the returned data.
      */
@@ -447,8 +443,8 @@ class Client {
             method: 'GET',
             params: {
                 lang: 'en',
-                limit: limit,
-                page: page
+                limit,
+                page
             }
         });
         return req.data;
@@ -456,11 +452,10 @@ class Client {
 
     /**
      * Get private messages
-     *
      * @throws {Error} Throws error if not logged in and for generic network issues.
      * @param {object} [config] The request config
-     * @param {number} [config.limit=20] Number of private messages wanted.
-     * @param {number} [config.page=1] Page number
+     * @param {number} [config.limit] Number of private messages wanted.
+     * @param {number} [config.page] Page number
      * @returns {Promise<object>} Object with all the returned data.
      */
     async getDMs({ limit = 20, page = 1 } = {}) {
@@ -469,8 +464,8 @@ class Client {
             url: `https://capi-v2.sankakucomplex.com/dmail`,
             method: 'GET',
             params: {
-                limit: limit,
-                page: page,
+                limit,
+                page,
                 lang: 'en'
             }
         });
@@ -480,12 +475,10 @@ class Client {
 
     /**
      * Send DM to user with id.
-     *
      * @example
      * // Send DM to user Smith
      * const user = await client.getUserInfo({name: 'Smith'})
      * await client.sendDM({ id: user.id, title: 'test', body: 'test' });
-     *
      * @throws {Error} Throws error if not logged in, for generic network issues, in case of invalid request data or if you try to send a message to yourself.
      * @param {object} config The request config
      * @param {number} config.id id of the user
@@ -502,8 +495,8 @@ class Client {
             data: {
                 dmail: {
                     user_id: id,
-                    title: title,
-                    body: body
+                    title,
+                    body
                 }
             }
         });
@@ -513,7 +506,6 @@ class Client {
 
     /**
      * Upvote or downvote comment
-     *
      * @example
      * client.scoreComment({ id: 111319, score: 'plus' });
      * @param {object} config The request config
@@ -530,7 +522,7 @@ class Client {
                 lang: 'en'
             },
             data: {
-                score: score
+                score
             }
         });
         return req.data;
@@ -538,7 +530,6 @@ class Client {
 
     /**
      * Add like to a book or post.
-     *
      * @throws {Error} Will throw an error not logged in or for generic network issues.
      * @async
      * @example
@@ -547,9 +538,9 @@ class Client {
      *  .then(result => console.log(result));
      *  //  { success: true, post_id: 24838772, favorited_users: '', score: 40 }
      * @param {object} config The request config
-     * @param {('books'|'posts')} [config.type='posts'] Whether you want to like a book or a submission
+     * @param {('books'|'posts')} [config.type] Whether you want to like a book or a submission
      * @param {number} config.id id of the post/submission
-     * @param {boolean} [config.remove=false] If you want to remove the like instead of adding it, set this to true.
+     * @param {boolean} [config.remove] If you want to remove the like instead of adding it, set this to true.
      * @returns {Promise<{success: boolean, post_id: number, favorited_users: string, score: number}>} - Object with all the returned data.
      */
     async like({ type = 'posts', remove = false, id }) {
@@ -566,7 +557,6 @@ class Client {
 
     /**
      * Add, edit or remove vote to a book or post.
-     *
      * @async
      * @throws {Error} Will throw an error not logged in or for generic network issues.
      * @example
@@ -575,7 +565,7 @@ class Client {
      *  .then(result => console.log(result[0]));
      *  // { "success":true, "post_id":24835970, "vote_count":2, "score":10 }
      * @param {object} config The request config
-     * @param {('books'|'posts')} [config.type='posts'] Whether you want to like a book or a submission
+     * @param {('books'|'posts')} [config.type] Whether you want to like a book or a submission
      * @param {number} config.id id of the post/submission
      * @param {number} config.score Score to give. Goes from one to five. Give zero to remove the vote.
      * @returns {Promise<{success: boolean, post_id: number, vote_count: number, score: number}>} Object with all the returned data.
@@ -589,7 +579,7 @@ class Client {
                 lang: 'en'
             },
             data: {
-                score: score
+                score
             }
         });
 

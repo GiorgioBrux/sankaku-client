@@ -1,15 +1,42 @@
 {
-    "extends": ["airbnb-base", "prettier", "plugin:node/recommended", "plugin:jsdoc/recommended"],
-    "plugins": ["prettier", "@babel", "jsdoc"],
+    "extends": [
+      "airbnb-base", 
+      "prettier", 
+      "plugin:jsdoc/recommended"
+    ],
+    "plugins": [
+      "prettier", 
+      "@babel", 
+      "jsdoc", 
+      "import" // Helps managing module imports
+    ],
     "rules": {
-        "prettier/prettier": "error",
-        "no-unused-vars": "warn",
-        "no-console": "off",
-        "func-names": "off",
-        "no-process-exit": "off",
-        "object-shorthand": "off",
-        "class-methods-use-this": "off",
-        "camelcase": "off"
+      "prettier/prettier": "error",
+      "no-unused-vars": "warn",
+      "no-console": "off",
+      "func-names": "off",
+      "no-process-exit": "off",
+      "object-shorthand": [
+        "error", 
+        "always" // Encourages use of shorthand syntax where possible
+      ],
+      "class-methods-use-this": "off",
+      "camelcase": "off",
+      "@babel/no-unused-expressions": "warn", // Uses Babel's enhanced checks for unused expressions
+      "import/no-extraneous-dependencies": ["error", {"devDependencies": true}] // Ensures proper handling of dev dependencies in imports
     },
-    "parser": "@babel/eslint-parser"
-}
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+      "requireConfigFile": false, // Allows parsing without a Babel configuration file for simpler projects
+      "babelOptions": {
+        "presets": ["@babel/preset-env"] // Ensures your code is compatible with current JavaScript environments
+      }
+    },
+    "env": {
+      "es6": true, // Enables ES6 features
+      "browser": true, // Enables browser global variables
+      "node": true, // Enables Node.js global variables and Node.js scoping
+      "jest": true
+    }
+  }
+  
