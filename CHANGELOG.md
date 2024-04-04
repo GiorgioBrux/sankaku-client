@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/GiorgioBrux/sankaku-client/compare/v1.0.3...v2.0.0) (2024-04-04)
+
+
+### chore
+
+* deps and tests ([1565e40](https://github.com/GiorgioBrux/sankaku-client/commit/1565e40a05739b48799e7134dd106d8fbd278ad9))
+
+
+### BREAKING CHANGES
+
+* switch to module for release
+
 ## [1.0.3](https://github.com/GiorgioBrux/sankaku-client/compare/v1.0.2...v1.0.3) (2021-11-26)
 
 
