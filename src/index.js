@@ -6,7 +6,7 @@ import { jwtDecode } from 'jwt-decode';
  * @class
  * @param {object} [extra_headers] Headers added to every request.
  * @example
- * const {Client} = require('sankaku-client')
+ * import Client from 'sankaku-client';
  * const client = new Client({header1: 'header1_info', header2: 'header2_info'});
  */
 class Client {
