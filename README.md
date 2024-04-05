@@ -55,7 +55,7 @@ Give a ⭐️ if this project helped you!
 
 ## 📝 License
 
-Copyright © 2021 [GiorgioBrux](https://github.com/GiorgioBrux).<br />
+Copyright © 2021-2024 [GiorgioBrux](https://github.com/GiorgioBrux).<br />
 This project is [MIT](https://github.com/GiorgioBrux/sankaku-client/blob/master/LICENSE) licensed.
 
 ***
