@@ -242,7 +242,7 @@ class Client {
      * @param {string} [config.recommended_for] Show media recommended for username.
      * @param {string} [config.favorited_by] Show media favorited by username.
      * @param {string} [config.voted_by] Show media voted by username.
-     * @param {string} [config.uploaded_by] SHow media uploaded by username.
+     * @param {string} [config.uploaded_by] Show media uploaded by username.
      * @param {Array<string>} [config.tags] Tags following the format <code>'yuri','-yaoi'</code>
      * @todo Add personalized recommended parameter
      */
